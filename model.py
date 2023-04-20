@@ -52,20 +52,19 @@ class Extractor(nn.Module):
 class Classifier(nn.Module):
     def __init__(self, args):
         super(Classifier, self).__init__()
-        self.output_layer = torch.nn.Linear(args.feat_size, 1, bias=False)
-        nn.init.xavier_uniform_(self.output_layer.weight)
+        self.classifier_mode = args.classifier_mode
+        if self.classifier_mode=="type1":
+            self.output_layer = torch.nn.Linear(args.feat_size, 1, bias=False)
+            nn.init.xavier_uniform_(self.output_layer.weight)
+        else:
+            self.output_layer = torch.nn.Parameter(torch.randn(args.label_size, args.feat_size))
+            nn.init.xavier_uniform_(self.output_layer)
 
     def forward(self, representation): #N*L*D
-        return torch.squeeze(self.output_layer(representation),-1)
-
-# class Classifier(nn.Module):
-#     def __init__(self, args):
-#         super(Classifier, self).__init__()
-#         self.output_layer = torch.nn.Parameter(torch.randn(args.label_size, args.feat_size))
-#         nn.init.xavier_uniform_(self.output_layer)
-#
-#     def forward(self, representation): #N*L*D
-#         return torch.sum(representation*self.output_layer, -1)
+        if self.classifier_mode=="type1":
+            return torch.squeeze(self.output_layer(representation),-1)
+        else:
+            return torch.sum(representation * self.output_layer, -1)
 
 def bce_loss(y_pred, y_true):
     criteria = nn.BCEWithLogitsLoss()

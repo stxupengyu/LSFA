@@ -49,6 +49,8 @@ def collect(model, train_loader, args):
             feature_dict = dict_append_batch(representation, trg, feature_dict)
             # break
     np.save(args.feature_dict_path, feature_dict)
+    unfix_model(model)
+    model.train()
     return feature_dict
 
 def dict_append_batch(representation, trg, feature_dict):
@@ -72,6 +74,10 @@ def dict_append_each(vector, label_idx, feature_dict):
 def fix_model(model):
     for param in model.parameters():
         param.requires_grad = False
+
+def unfix_model(model):
+    for param in model.parameters():
+        param.requires_grad = True
 
 def get_queue(feature_dict, args):
     queue = []

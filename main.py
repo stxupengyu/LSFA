@@ -54,6 +54,8 @@ def main():
                         help="hideden size of LSTM")
     parser.add_argument('--feat_size', type=int, default=300,
                         help="feature size of LSFL")
+    parser.add_argument('--classifier_mode', type=str, default='type1', #'type1' or 'type2'
+                        help="type of classifiers")
     parser.add_argument("--dropout", default=0.5, required=False, type=float,
                         help="dropout of LSFL")
     parser.add_argument("--learning_rate", default=1e-3, required=False, type=float,
@@ -110,7 +112,7 @@ def main():
     #contrastive
     parser.add_argument('--contrastive_mode', type=bool, default=True , #True, False
                         help="use contrastive learning")
-    parser.add_argument('--contrastive_warmup', type=int, default=25,
+    parser.add_argument('--contrastive_warmup', type=int, default=25, #25
                         help="begin epoch of contrastive learning")
     parser.add_argument('--contrastive_weight', type=float, default=0.1,
                         help="weight of contrastive learning")
@@ -124,9 +126,9 @@ def main():
                         help="use pretrained LSFL model")
     parser.add_argument("--pretrained_path", default='/data/eurlex/model/lstm_20220818-141629.pth', type=str,
                         help="path of pretrained LSFL model")
-    parser.add_argument('--pre_feature_dict', type=bool, default=False,
+    parser.add_argument('--pre_feature_dict', type=bool, default=False,#True False
                         help="use former feature dictionary")
-    parser.add_argument("--pre_feature_dict_path", default='/data/eurlex/model/feature_dict_20220818-141629.npy', type=str,
+    parser.add_argument("--pre_feature_dict_path", default='/data/eurlex/model/feature_dict_20230418-135926.npy', type=str,
                         help="path of former feature dictionary")
     parser.add_argument('--pre_vaed', type=bool, default=False,
                         help="use pretrained VAE model")

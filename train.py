@@ -23,8 +23,11 @@ def train(model, optimizer,train_loader, val_loader, test_loader, mlb, args):
         if args.swa_mode==True and epoch==args.swa_warmup:
             swa_init(state, model)
         if args.contrastive_mode==True and epoch>=args.contrastive_warmup and epoch%2==0:
-            feature_dict = collector.collect(model, train_loader, args)
-            # feature_dict = np.load(args.pre_feature_dict_path, allow_pickle=True).item()# sub optimal
+            if args.pre_feature_dict==True:
+                feature_dict = np.load(args.pre_feature_dict_path, allow_pickle=True).item()  # sub optimal
+            else:
+                collector.collect(model, train_loader, args)
+                feature_dict = np.load(args.feature_dict_path, allow_pickle=True).item()
             prototype_queue = collector.get_queue(feature_dict, args)
         for i, batch in enumerate(train_loader, 1):
             global_step += 1
