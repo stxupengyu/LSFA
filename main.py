@@ -128,7 +128,7 @@ def main():
                         help="path of pretrained LSFL model")
     parser.add_argument('--pre_feature_dict', type=bool, default=False,#True False
                         help="use former feature dictionary")
-    parser.add_argument("--pre_feature_dict_path", default='/data/eurlex/model/feature_dict_20230418-135926.npy', type=str,
+    parser.add_argument("--pre_feature_dict_path", default='/data/eurlex/model/feature_dict_20220818-135926.npy', type=str,
                         help="path of former feature dictionary")
     parser.add_argument('--pre_vaed', type=bool, default=False,
                         help="use pretrained VAE model")
